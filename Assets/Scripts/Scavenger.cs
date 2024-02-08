@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class Scavenger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private WoodBoard _targetingWoodBoard;
+    [SerializeField] private int _movingSpeed = 100;
+
+
+    private void Start()
     {
-        
+        MoveToTarget();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (transform.position != _targetingWoodBoard.transform.position)
+            MoveToTarget();
+    }
+
+    public void SetTargetWoodBoard(WoodBoard woodBoard)
+    {
+        _targetingWoodBoard = woodBoard;
+    }
+
+    private void MoveToTarget()
+    {
+        Vector3.MoveTowards(transform.position, _targetingWoodBoard.transform.position, _movingSpeed * Time.deltaTime);
     }
 }
