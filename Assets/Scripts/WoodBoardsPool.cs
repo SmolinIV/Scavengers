@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class WoodBoardsPool : MonoBehaviour
 {
-    [SerializeField] private WoodBoard _woodboardPrefab;
+    [SerializeField] private Resource _woodboardPrefab;
     [SerializeField] private int _capacity;
 
-    private List<WoodBoard> _woodBoards;
+    private List<Resource> _woodBoards;
 
     private void Start()
     {
-        WoodBoard _tempWoodBoard;
-        _woodBoards = new List<WoodBoard>();
+        Resource _tempWoodBoard;
+        _woodBoards = new List<Resource>();
 
         for (int i = 0; i < _capacity; i++)
         {
@@ -21,11 +21,11 @@ public class WoodBoardsPool : MonoBehaviour
         }
     }
 
-    public void TryGetWoodBoard(out WoodBoard woodBoard, Vector3 activatePosition)
+    public void TryGetWoodBoard(out Resource woodBoard, Vector3 activatePosition)
     {
         woodBoard = null;
 
-        foreach (WoodBoard prevWoodBoard in _woodBoards)
+        foreach (Resource prevWoodBoard in _woodBoards)
         {
             if (prevWoodBoard.gameObject.activeSelf == false)
             {

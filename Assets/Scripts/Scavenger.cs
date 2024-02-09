@@ -2,30 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(ResourceBringer))]
 public class Scavenger : MonoBehaviour
 {
-    [SerializeField] private WoodBoard _targetingWoodBoard;
-    [SerializeField] private int _movingSpeed = 100;
+    [SerializeField] private Resource _targetWoodBoard;
 
+    private ResourceBringer _bringer;
 
     private void Start()
     {
-        MoveToTarget();
+        _bringer = GetComponent<ResourceBringer>();
+        MoveToResource(_targetWoodBoard);
     }
 
-    private void Update()
+    private void MoveToResource(Resource target)
     {
-        if (transform.position != _targetingWoodBoard.transform.position)
-            MoveToTarget();
-    }
+        if (target == null) 
+            return;
 
-    public void SetTargetWoodBoard(WoodBoard woodBoard)
-    {
-        _targetingWoodBoard = woodBoard;
-    }
+        _targetWoodBoard = target;
+        _bringer.SetTargetResource(_targetWoodBoard);
 
-    private void MoveToTarget()
-    {
-        Vector3.MoveTowards(transform.position, _targetingWoodBoard.transform.position, _movingSpeed * Time.deltaTime);
+        _bringer.StartMovingToTarget();
     }
 }
