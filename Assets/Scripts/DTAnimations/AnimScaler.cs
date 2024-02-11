@@ -7,7 +7,7 @@ public class AnimScaler : AnimConditionChanger
 {
     [SerializeField] protected Vector3 _endScale;
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         _endScale += transform.localScale;
         base.OnEnable();

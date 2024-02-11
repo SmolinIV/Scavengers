@@ -1,18 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.AI;
 
+[RequireComponent(typeof(WoodBoardsPool))]
 public class WoodBoardsSpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Action<WoodBoard> WoodBoardFound;
+
+    [SerializeField] private float _spawnSphereRadius = 25f;
+    [SerializeField] private float _spawnFrequency = 2f;
+
+    private WoodBoardsPool _woodBoardsPool;
+    private float _passedTime;
+
+    private void Start()
     {
-        
+        _woodBoardsPool = GetComponent<WoodBoardsPool>();
+        _passedTime = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (_passedTime < _spawnFrequency)
+        {
+            _passedTime += Time.deltaTime;
+            return;
+        }
+
+        _passedTime = 0;
+
+        if (_woodBoardsPool.TryGetWoodBoard(out WoodBoard woodBoard, GetRandomPointOnMesh()))
+            WoodBoardFound?.Invoke(woodBoard);
+    }
+
+    private Vector3 GetRandomPointOnMesh()
+    {
+        NavMesh.SamplePosition(UnityEngine.Random.insideUnitSphere * _spawnSphereRadius, out NavMeshHit hit, _spawnSphereRadius, NavMesh.AllAreas);
+        return hit.position;
     }
 }

@@ -13,4 +13,5 @@ public abstract class AnimConditionChanger : MonoBehaviour
     }
 
     protected abstract void StartAnimation();
+
 }
