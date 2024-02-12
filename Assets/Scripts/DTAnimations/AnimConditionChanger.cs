@@ -12,6 +12,11 @@ public abstract class AnimConditionChanger : MonoBehaviour
         StartAnimation();
     }
 
+    protected void OnDisable()
+    {
+        transform.DOPause();
+    }
+
     protected abstract void StartAnimation();
 
 }

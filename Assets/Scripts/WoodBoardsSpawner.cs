@@ -5,7 +5,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(WoodBoardsPool))]
 public class WoodBoardsSpawner : MonoBehaviour
 {
-    public Action<WoodBoard> WoodBoardFound;
+    public Action<WoodBoard> WoodBoardSpawned;
 
     [SerializeField] private float _spawnSphereRadius = 25f;
     [SerializeField] private float _spawnFrequency = 2f;
@@ -30,12 +30,12 @@ public class WoodBoardsSpawner : MonoBehaviour
         _passedTime = 0;
 
         if (_woodBoardsPool.TryGetWoodBoard(out WoodBoard woodBoard, GetRandomPointOnMesh()))
-            WoodBoardFound?.Invoke(woodBoard);
+            WoodBoardSpawned?.Invoke(woodBoard);
     }
 
     private Vector3 GetRandomPointOnMesh()
     {
-        NavMesh.SamplePosition(UnityEngine.Random.insideUnitSphere * _spawnSphereRadius, out NavMeshHit hit, _spawnSphereRadius, NavMesh.AllAreas);
+        NavMesh.SamplePosition(UnityEngine.Random.insideUnitSphere * _spawnSphereRadius + transform.position, out NavMeshHit hit, _spawnSphereRadius, NavMesh.AllAreas);
         return hit.position;
     }
 }
