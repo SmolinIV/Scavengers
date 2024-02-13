@@ -17,6 +17,10 @@ public abstract class AnimConditionChanger : MonoBehaviour
         transform.DOPause();
     }
 
-    protected abstract void StartAnimation();
+    public void StopAnimation()
+    {
+        transform.DOKill();
+    }
 
+    protected abstract void StartAnimation();
 }

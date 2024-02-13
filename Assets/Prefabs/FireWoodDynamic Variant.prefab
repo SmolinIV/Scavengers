@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2d08d01c8507d44b5d3efb64d33cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onHandsSize: {x: 0.5, y: 0.5, z: 0.5}
 --- !u!114 &6750287624755611931
 MonoBehaviour:
   m_ObjectHideFlags: 0
