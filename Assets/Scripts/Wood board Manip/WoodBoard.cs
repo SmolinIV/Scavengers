@@ -1,19 +1,19 @@
 using DG.Tweening;
 using UnityEngine;
 
-[RequireComponent (typeof(AnimConditionChanger))]
+[RequireComponent (typeof(AnimRotator))]
 
 public class WoodBoard : MonoBehaviour
 {
     [SerializeField] private Vector3 _onHandsSize;
-    private AnimConditionChanger _animations;
+    private AnimRotator _animations;
 
     private Vector3 _defaultScale;
 
     private void Start()
     {
         _defaultScale = transform.localScale;
-        _animations = GetComponent<AnimConditionChanger>();
+        _animations = GetComponent<AnimRotator>();
     }
 
     public void PutOnHands()

@@ -1,11 +1,18 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Animator))]
 public class Bringer : MonoBehaviour
 {
+    public readonly string AnimFreeRunningPermit = "RunFree";
+    public readonly string AnimRunWithWoodBoardPermit = "RunWithWoodBoard";
+
     public Action WoodBoardBrought;
+
+    private Animator _animator;
 
     private WoodBoard _target;
     private NavMeshAgent _agent;
@@ -14,14 +21,25 @@ public class Bringer : MonoBehaviour
     private Vector3 _basePosition;
 
     private bool _isWithWoodBoard;
+    private bool _isFree;
+
+    private Coroutine _ReturningControl;
 
     private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
 
         _basePosition = transform.parent.position;
         _defaultPosition = transform.position;
         _isWithWoodBoard = false;
+        _isFree = true;
+    }
+
+    public void OnDisable()
+    {
+        if (_ReturningControl != null)
+            StopCoroutine(_ReturningControl);
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -38,20 +56,24 @@ public class Bringer : MonoBehaviour
         {
             _agent.velocity = Vector3.zero;
             ThrowWoodBoard();
-            ReturnToStartPosition();
         }
     }
 
-
     public void MoveToWoodBoard(WoodBoard woodBoard)
     {
+        _isFree = false;
         _target = woodBoard;
+
         _agent.SetDestination(_target.transform.position);
+        _animator.SetBool(AnimFreeRunningPermit, true);
     }
 
     public void ReturnToStartPosition()
     {
+        _isFree = true;
+
         _agent.SetDestination(_defaultPosition);
+        _ReturningControl = StartCoroutine(ControlReturning());
     }
 
     private void BringWoodBoardToBase()
@@ -63,6 +85,7 @@ public class Bringer : MonoBehaviour
         _target.transform.localPosition = woodBoardInHandsPosition;
 
         _agent.SetDestination(_basePosition);
+        _animator.SetBool(AnimRunWithWoodBoardPermit, true);
 
         _isWithWoodBoard = true;
     }
@@ -73,6 +96,24 @@ public class Bringer : MonoBehaviour
         _target.Disable();
         _isWithWoodBoard = false;
 
+        _animator.SetBool(AnimRunWithWoodBoardPermit, false);
         WoodBoardBrought?.Invoke();
+    }
+
+    private IEnumerator ControlReturning()
+    {
+        float difference = 0.5f;
+
+        while (Vector3.Distance(transform.position, _defaultPosition) > difference && _isFree)
+            yield return null;
+
+
+        if (_isFree)
+        {
+            _animator.SetBool(AnimFreeRunningPermit, false);
+            _animator.SetBool(AnimRunWithWoodBoardPermit, false);
+        }
+
+        yield break;
     }
 }

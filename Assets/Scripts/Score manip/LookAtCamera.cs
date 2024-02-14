@@ -6,7 +6,7 @@ public class LookAtCamera : MonoBehaviour
 {
     [SerializeField] private Transform _camera;
 
-    private void Update()
+    private void LateUpdate()
     {
         transform.LookAt(_camera);
     }

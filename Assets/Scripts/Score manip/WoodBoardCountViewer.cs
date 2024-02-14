@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WoodBoardCountViewer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private WoodBoardCounter _woodBoardCounter;
+    [SerializeField] private TMP_Text _text;
+
+    private void OnEnable()
     {
-        
+        _woodBoardCounter.WoodBoardCountChanged += ChangeText;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ChangeText(int currentWoodBoardCount)
     {
-        
+        _text.text = currentWoodBoardCount.ToString();
     }
 }

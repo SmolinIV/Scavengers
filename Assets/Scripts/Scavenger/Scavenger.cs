@@ -11,6 +11,13 @@ public class Scavenger : MonoBehaviour
 
     public bool IsFree { get; private set; }
 
+    private void Awake()
+    {
+        _bringer = GetComponent<Bringer>();
+
+        IsFree = true;
+    }
+
     private void OnEnable()
     {
         _bringer.WoodBoardBrought += StopWorking;
@@ -19,11 +26,6 @@ public class Scavenger : MonoBehaviour
     private void OnDisable()
     {
         _bringer.WoodBoardBrought -= StopWorking;        
-    }
-
-    private void Start()
-    {
-        _bringer = GetComponent<Bringer>();
     }
 
     public void MoveToWoodBoard(WoodBoard woodBoard)
@@ -39,5 +41,8 @@ public class Scavenger : MonoBehaviour
     {
         IsFree = true;
         AlreadyFree?.Invoke();
+
+        if (IsFree)
+            _bringer.ReturnToStartPosition();
     }
 }
