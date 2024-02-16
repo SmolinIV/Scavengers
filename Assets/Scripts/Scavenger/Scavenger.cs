@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Scavenger : MonoBehaviour
 {
-    public Action AlreadyFree;
+    public Action<Scavenger> AlreadyFree;
+    public Action WoodBoardBrought;
 
     private Bringer _bringer;
 
@@ -20,12 +21,12 @@ public class Scavenger : MonoBehaviour
 
     private void OnEnable()
     {
-        _bringer.WoodBoardBrought += StopWorking;
+        _bringer.WoodBoardBrought += NotifyAboutBroughtWoodBoard;
     }
 
     private void OnDisable()
     {
-        _bringer.WoodBoardBrought -= StopWorking;        
+        _bringer.WoodBoardBrought -= NotifyAboutBroughtWoodBoard;
     }
 
     public void MoveToWoodBoard(WoodBoard woodBoard)
@@ -40,9 +41,20 @@ public class Scavenger : MonoBehaviour
     public void StopWorking()
     {
         IsFree = true;
-        AlreadyFree?.Invoke();
+        AlreadyFree?.Invoke(this);
 
         if (IsFree)
             _bringer.ReturnToStartPosition();
+    }
+
+    public void SetBasePosition(Vector3 position)
+    {
+        _bringer.SetBasePosition(position);
+    }
+
+    private void NotifyAboutBroughtWoodBoard()
+    {
+        WoodBoardBrought?.Invoke();
+        StopWorking();
     }
 }

@@ -1,77 +1,70 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(WoodBoardCounter))]
+[RequireComponent(typeof(ScavengersStaff))]
 
 public class Base : MonoBehaviour
 {
-    [SerializeField] private List<Scavenger> _scavengers;
     [SerializeField] private WoodBoardsSpawner _woodBoardsSpawner;
 
+    private ScavengersStaff _scavengersController;
     private WoodBoardCounter _woodBoardCounter;
     private Queue<WoodBoard> _woodBoards;
 
+    private bool _isNeedToBuildNewBase;
     private void Awake()
     {
         _woodBoardCounter = GetComponent<WoodBoardCounter>();
+        _scavengersController = GetComponent<ScavengersStaff>();
 
         _woodBoards = new Queue<WoodBoard>();
+
+        _scavengersController.CreateNewScavenger(out Scavenger scavenger);
+
+        _isNeedToBuildNewBase = false;
     }
 
     private void OnEnable()
     {
         _woodBoardsSpawner.WoodBoardSpawned += RegisterNewWoodBoard;
-
-        foreach (Scavenger scavenger in _scavengers)
-        {
-            scavenger.AlreadyFree += SendForNextWoodBoard;
-            scavenger.AlreadyFree += IncreaseWoodBoardCount;
-        }
+        _scavengersController.SomeScavengerGotFree += GiveTaskToFreeScavenger;
+        _scavengersController.WoodBoardBrought += IncreaseWoodBoardCount;
     }
 
     private void OnDisable()
     {
         _woodBoardsSpawner.WoodBoardSpawned -= RegisterNewWoodBoard;
-
-        foreach (Scavenger scavenger in _scavengers)
-        {
-            scavenger.AlreadyFree -= SendForNextWoodBoard;
-            scavenger.AlreadyFree -= IncreaseWoodBoardCount;
-        }
+        _scavengersController.SomeScavengerGotFree -= GiveTaskToFreeScavenger;
+        _scavengersController.WoodBoardBrought -= IncreaseWoodBoardCount;
     }
 
     private void RegisterNewWoodBoard(WoodBoard woodBoard)
     {
-        if (FindFreeScavenger(out Scavenger scavenger))
+        if (_scavengersController.FindFreeScavenger(out Scavenger scavenger))
             scavenger.MoveToWoodBoard(woodBoard);
         else
             _woodBoards.Enqueue(woodBoard);
     }
 
-    private void SendForNextWoodBoard()
+    private void GiveTaskToFreeScavenger(Scavenger scavenger)
     {
-        if (_woodBoards.Count == 0)
+        if (!scavenger.IsFree)
             return;
 
-        if (FindFreeScavenger(out Scavenger scavenger))
+        if (_isNeedToBuildNewBase)
+            return;
+        else if (_woodBoards.Count > 0)
             scavenger.MoveToWoodBoard(_woodBoards.Dequeue());
     }
 
-    private bool FindFreeScavenger(out Scavenger freeScavenger)
+    public void AddNewScavenger()
     {
-        freeScavenger = null;
+        _scavengersController.CreateNewScavenger(out Scavenger scavenger);
 
-        foreach (Scavenger scavenger in _scavengers)
-        {
-            if (scavenger.IsFree)
-            {
-                freeScavenger = scavenger;
-                return true;
-            }
-        }
-
-        return false;
+        GiveTaskToFreeScavenger(scavenger);  
     }
 
     private void IncreaseWoodBoardCount()
