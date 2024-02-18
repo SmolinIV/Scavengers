@@ -12,10 +12,9 @@ public class Bringer : MonoBehaviour
 
     public Action WoodBoardBrought;
 
-    private Animator _animator;
-
-    private WoodBoard _target;
     private NavMeshAgent _agent;
+    private Animator _animator;
+    private WoodBoard _target;
 
     private Vector3 _defaultPosition;
     private Vector3 _basePosition;
@@ -30,7 +29,6 @@ public class Bringer : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
 
-        _basePosition = transform.parent.position;
         _defaultPosition = transform.position;
         _isWithWoodBoard = false;
         _isFree = true;
@@ -76,6 +74,11 @@ public class Bringer : MonoBehaviour
         _ReturningControl = StartCoroutine(ControlReturning());
     }
 
+    public void SetBasePosition(Vector3 position)
+    {
+        _basePosition = position;
+    }
+
     private void BringWoodBoardToBase()
     {
         Vector3 woodBoardInHandsPosition = new Vector3(0, 1, 0.5f);
@@ -97,6 +100,7 @@ public class Bringer : MonoBehaviour
         _isWithWoodBoard = false;
 
         _animator.SetBool(AnimRunWithWoodBoardPermit, false);
+
         WoodBoardBrought?.Invoke();
     }
 
@@ -113,6 +117,18 @@ public class Bringer : MonoBehaviour
             _animator.SetBool(AnimFreeRunningPermit, false);
             _animator.SetBool(AnimRunWithWoodBoardPermit, false);
         }
+
+        yield break;
+    }
+
+    private IEnumerator ControlTarget()
+    {
+        float checkingDelaySeconds = 0.5f;
+
+        WaitForSeconds delay = new WaitForSeconds(checkingDelaySeconds);
+
+        while (!_isWithWoodBoard && _target != null)
+            yield return delay;
 
         yield break;
     }
