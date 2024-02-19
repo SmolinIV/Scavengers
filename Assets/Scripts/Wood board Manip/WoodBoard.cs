@@ -28,4 +28,6 @@ public class WoodBoard : MonoBehaviour
         gameObject.SetActive(false);
         transform.localScale = _defaultScale;
     }
+
+    public bool HaveParent() => transform.parent != null;
 }

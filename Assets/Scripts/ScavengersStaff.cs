@@ -15,11 +15,9 @@ public class ScavengersStaff : MonoBehaviour
 
     private List<Scavenger> _scavengers;
 
-
     private void Awake()
     {
         _scavengers = new List<Scavenger>();
-
     }
 
     private void OnDisable()
@@ -27,7 +25,7 @@ public class ScavengersStaff : MonoBehaviour
         foreach (Scavenger scavenger in _scavengers)
         {
             scavenger.AlreadyFree -= NotifyAboutFreeScavenger;
-            scavenger.WoodBoardBrought -= WoodBoardBrought;
+            scavenger.WoodBoardBrought -= NotifyAboutBroughtWoodBoard;
         }
     }
 
@@ -39,14 +37,13 @@ public class ScavengersStaff : MonoBehaviour
 
         if (_scavengers.Count < _maxScavengerCount)
         {
-            Vector3 newScavengerPosition;
+            Vector3 newScavengerPosition = _firstScavengerPosition.position;
 
-            if (_scavengers.Count == 0)
-                newScavengerPosition = _firstScavengerPosition.position;
-            else
-                newScavengerPosition = _scavengers.Last().transform.position + new Vector3(_scavengerSpawnDistanceX, 0, 0);
+            if (_scavengers.Count != 0)
+                newScavengerPosition.x += _scavengerSpawnDistanceX * _scavengers.Count;
 
             scavenger = Instantiate(_scavengerPrefab, newScavengerPosition, new Quaternion(0, 0, 0, 0));
+            scavenger.transform.SetParent(this.transform);
             scavenger.SetBasePosition(transform.position);
             _scavengers.Add(scavenger);
 

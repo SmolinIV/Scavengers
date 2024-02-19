@@ -11,6 +11,7 @@ public class Bringer : MonoBehaviour
     public readonly string AnimRunWithWoodBoardPermit = "RunWithWoodBoard";
 
     public Action WoodBoardBrought;
+    public Action TargetMissed;
 
     private NavMeshAgent _agent;
     private Animator _animator;
@@ -22,9 +23,10 @@ public class Bringer : MonoBehaviour
     private bool _isWithWoodBoard;
     private bool _isFree;
 
-    private Coroutine _ReturningControl;
+    private Coroutine _returningControl;
+    private Coroutine _targetControl;
 
-    private void Start()
+    private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
@@ -36,8 +38,11 @@ public class Bringer : MonoBehaviour
 
     public void OnDisable()
     {
-        if (_ReturningControl != null)
-            StopCoroutine(_ReturningControl);
+        if (_returningControl != null)
+            StopCoroutine(_returningControl);
+
+        if (_targetControl != null)
+            StopCoroutine(_targetControl);
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -62,6 +67,7 @@ public class Bringer : MonoBehaviour
         _isFree = false;
         _target = woodBoard;
 
+        _targetControl = StartCoroutine(CheckTargetRelevance());
         _agent.SetDestination(_target.transform.position);
         _animator.SetBool(AnimFreeRunningPermit, true);
     }
@@ -71,7 +77,7 @@ public class Bringer : MonoBehaviour
         _isFree = true;
 
         _agent.SetDestination(_defaultPosition);
-        _ReturningControl = StartCoroutine(ControlReturning());
+        _returningControl = StartCoroutine(ControlReturning());
     }
 
     public void SetBasePosition(Vector3 position)
@@ -121,14 +127,23 @@ public class Bringer : MonoBehaviour
         yield break;
     }
 
-    private IEnumerator ControlTarget()
+    private IEnumerator CheckTargetRelevance()
     {
-        float checkingDelaySeconds = 0.5f;
+        float delayInSeconds = 0.5f;
+        WaitForSeconds delay = new WaitForSeconds(delayInSeconds);
 
-        WaitForSeconds delay = new WaitForSeconds(checkingDelaySeconds);
-
-        while (!_isWithWoodBoard && _target != null)
-            yield return delay;
+        while (!_isWithWoodBoard)
+        {
+            if (_target.HaveParent())
+            {
+                TargetMissed?.Invoke();
+                yield break;
+            }
+            else
+            {
+                yield return delay;
+            }
+        }
 
         yield break;
     }

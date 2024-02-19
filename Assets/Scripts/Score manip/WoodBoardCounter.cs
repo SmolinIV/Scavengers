@@ -6,17 +6,23 @@ using UnityEngine;
 public class WoodBoardCounter : MonoBehaviour
 {
     public Action<int> WoodBoardCountChanged;
-    private int _woodBoardCount;
+
+    public int WoodBoardCount { get; private set; }
 
     private void Start()
     {
-        _woodBoardCount = 0;
+        WoodBoardCount = 0;
     }
 
     public void IncreaseCount()
     {
-        ++_woodBoardCount;
+        ++WoodBoardCount;
+        WoodBoardCountChanged?.Invoke(WoodBoardCount);
+    }
 
-        WoodBoardCountChanged?.Invoke(_woodBoardCount);
+    public void DecreaseCountByNumber(int number)
+    {
+        WoodBoardCount -= number;
+        WoodBoardCountChanged?.Invoke(WoodBoardCount);
     }
 }

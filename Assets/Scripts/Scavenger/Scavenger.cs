@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Bringer))]
 
@@ -22,11 +23,13 @@ public class Scavenger : MonoBehaviour
     private void OnEnable()
     {
         _bringer.WoodBoardBrought += NotifyAboutBroughtWoodBoard;
+        _bringer.TargetMissed += StopWorking;
     }
 
     private void OnDisable()
     {
         _bringer.WoodBoardBrought -= NotifyAboutBroughtWoodBoard;
+        _bringer.TargetMissed -= StopWorking;
     }
 
     public void MoveToWoodBoard(WoodBoard woodBoard)
