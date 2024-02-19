@@ -8,15 +8,17 @@ public class Flag : MonoBehaviour
 {
     public Action Set;
 
-    private float _positionCorrectionY = 1.4f;
+    private Ray _mousRay;
+    private RaycastHit _hit;
 
-    private bool _isSetOnGround;
     private Coroutine _untilClickMoving;
+
+    private float _positionCorrectionY = 1.4f;
+    private bool _isSetOnGround;
 
     public void OnEnable()
     {
         _isSetOnGround = false;
-
         _untilClickMoving = StartCoroutine(MoveUntilClick());
     }
 
@@ -28,11 +30,16 @@ public class Flag : MonoBehaviour
 
     private void MoveToCursor()
     {
-        transform.position = Input.mousePosition;
+        _mousRay = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        Vector3 newPosition = transform.position;
-        newPosition.y = _positionCorrectionY;
-        transform.position = newPosition;
+        if (Physics.Raycast(_mousRay, out _hit))
+        {
+            Vector3 newPosition = _hit.point;
+            newPosition.y = _positionCorrectionY;
+            transform.position = newPosition;
+
+        }
+
     }
 
     private void SetOnGround()
