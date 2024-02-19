@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(WoodBoardCounter))]
@@ -9,20 +7,24 @@ using UnityEngine;
 public class Base : MonoBehaviour
 {
     [SerializeField] private WoodBoardsSpawner _woodBoardsSpawner;
-
-    private ScavengersStaff _scavengersController;
+    [SerializeField] private int _startScavengerCount = 2;
+    [SerializeField] private int _scavengerCost = 3;
+    private ScavengersStaff _scavengersStaff;
     private WoodBoardCounter _woodBoardCounter;
     private Queue<WoodBoard> _woodBoards;
+    private NewBaseCreator _newBaseCreator;
 
     private bool _isNeedToBuildNewBase;
     private void Awake()
     {
         _woodBoardCounter = GetComponent<WoodBoardCounter>();
-        _scavengersController = GetComponent<ScavengersStaff>();
+        _scavengersStaff = GetComponent<ScavengersStaff>();
+        _newBaseCreator = GetComponent<NewBaseCreator>();
 
         _woodBoards = new Queue<WoodBoard>();
 
-        _scavengersController.CreateNewScavenger(out Scavenger scavenger);
+        for (int i = 0; i < _startScavengerCount; i++)
+            _scavengersStaff.CreateNewScavenger(out Scavenger scavenger);
 
         _isNeedToBuildNewBase = false;
     }
@@ -30,20 +32,39 @@ public class Base : MonoBehaviour
     private void OnEnable()
     {
         _woodBoardsSpawner.WoodBoardSpawned += RegisterNewWoodBoard;
-        _scavengersController.SomeScavengerGotFree += GiveTaskToFreeScavenger;
-        _scavengersController.WoodBoardBrought += IncreaseWoodBoardCount;
+        _scavengersStaff.SomeScavengerGotFree += GiveTaskToFreeScavenger;
+        _scavengersStaff.WoodBoardBrought += IncreaseWoodBoardCount;
     }
 
     private void OnDisable()
     {
         _woodBoardsSpawner.WoodBoardSpawned -= RegisterNewWoodBoard;
-        _scavengersController.SomeScavengerGotFree -= GiveTaskToFreeScavenger;
-        _scavengersController.WoodBoardBrought -= IncreaseWoodBoardCount;
+        _scavengersStaff.SomeScavengerGotFree -= GiveTaskToFreeScavenger;
+        _scavengersStaff.WoodBoardBrought -= IncreaseWoodBoardCount;
+    }
+
+    public void AddNewScavenger()
+    {
+        if (_woodBoardCounter.WoodBoardCount >= _scavengerCost)
+        {
+            _scavengersStaff.CreateNewScavenger(out Scavenger scavenger);
+
+            if (scavenger != null)
+            {
+                GiveTaskToFreeScavenger(scavenger);
+                _woodBoardCounter.DecreaseCountByNumber(_scavengerCost);
+            }
+        }
+    }
+
+    public void CreateNewBase()
+    {
+        _newBaseCreator.CreateFlagToAddNewBase();
     }
 
     private void RegisterNewWoodBoard(WoodBoard woodBoard)
     {
-        if (_scavengersController.FindFreeScavenger(out Scavenger scavenger))
+        if (_scavengersStaff.FindFreeScavenger(out Scavenger scavenger))
             scavenger.MoveToWoodBoard(woodBoard);
         else
             _woodBoards.Enqueue(woodBoard);
@@ -60,15 +81,13 @@ public class Base : MonoBehaviour
             scavenger.MoveToWoodBoard(_woodBoards.Dequeue());
     }
 
-    public void AddNewScavenger()
-    {
-        _scavengersController.CreateNewScavenger(out Scavenger scavenger);
-
-        GiveTaskToFreeScavenger(scavenger);  
-    }
-
     private void IncreaseWoodBoardCount()
     {
         _woodBoardCounter.IncreaseCount();
+    }
+
+    private void ChangePriorityToCreateNewBase()
+    {
+        _isNeedToBuildNewBase = true;
     }
 }
