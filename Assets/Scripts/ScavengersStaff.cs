@@ -68,6 +68,28 @@ public class ScavengersStaff : MonoBehaviour
         return false;
     }
 
+    public void AddNewActiveScavenger(Scavenger scavenger)
+    {
+        _scavengers.Add(scavenger);
+        NotifyAboutFreeScavenger(scavenger);
+
+        Vector3 newScavengerPosition = _firstScavengerPosition.position;
+
+        if (_scavengers.Count != 0)
+            newScavengerPosition.x += _scavengerSpawnDistanceX * _scavengers.Count;
+
+        scavenger.transform.SetParent(this.transform);
+        scavenger.SetBasePosition(newScavengerPosition);
+
+        scavenger.AlreadyFree += NotifyAboutFreeScavenger;
+        scavenger.WoodBoardBrought += NotifyAboutBroughtWoodBoard;
+    }
+
+    public void RemoveScavenger(Scavenger scavenger)
+    {
+        return;
+    }
+
     private void NotifyAboutFreeScavenger(Scavenger scavenger)
     {
         SomeScavengerGotFree?.Invoke(scavenger);

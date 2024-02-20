@@ -9,12 +9,16 @@ public class Base : MonoBehaviour
     [SerializeField] private WoodBoardsSpawner _woodBoardsSpawner;
     [SerializeField] private int _startScavengerCount = 2;
     [SerializeField] private int _scavengerCost = 3;
+
     private ScavengersStaff _scavengersStaff;
-    private WoodBoardCounter _woodBoardCounter;
-    private Queue<WoodBoard> _woodBoards;
     private NewBaseCreator _newBaseCreator;
 
+    private WoodBoardCounter _woodBoardCounter;
+    private Queue<WoodBoard> _woodBoards;
+
+
     private bool _isNeedToBuildNewBase;
+
     private void Awake()
     {
         _woodBoardCounter = GetComponent<WoodBoardCounter>();
@@ -34,6 +38,7 @@ public class Base : MonoBehaviour
         _woodBoardsSpawner.WoodBoardSpawned += RegisterNewWoodBoard;
         _scavengersStaff.SomeScavengerGotFree += GiveTaskToFreeScavenger;
         _scavengersStaff.WoodBoardBrought += IncreaseWoodBoardCount;
+        _newBaseCreator.FlagSet += ChangePriorityToCreateNewBase;
     }
 
     private void OnDisable()
@@ -41,6 +46,7 @@ public class Base : MonoBehaviour
         _woodBoardsSpawner.WoodBoardSpawned -= RegisterNewWoodBoard;
         _scavengersStaff.SomeScavengerGotFree -= GiveTaskToFreeScavenger;
         _scavengersStaff.WoodBoardBrought -= IncreaseWoodBoardCount;
+        _newBaseCreator.FlagSet -= ChangePriorityToCreateNewBase;
     }
 
     public void AddNewScavenger()
@@ -57,9 +63,14 @@ public class Base : MonoBehaviour
         }
     }
 
-    public void CreateNewBase()
+    public void AcceptActiveScavenger(Scavenger scavenger)
     {
-        _newBaseCreator.CreateFlagToAddNewBase();
+        _scavengersStaff.AddNewActiveScavenger(scavenger);
+    }
+
+    public void SetFlagForNewBase()
+    {
+        _newBaseCreator.SetFlag();
     }
 
     private void RegisterNewWoodBoard(WoodBoard woodBoard)
@@ -75,8 +86,8 @@ public class Base : MonoBehaviour
         if (!scavenger.IsFree)
             return;
 
-        if (_isNeedToBuildNewBase)
-            return;
+        if (_isNeedToBuildNewBase && _newBaseCreator.TryCreateNewBase(scavenger))
+            _scavengersStaff.RemoveScavenger(scavenger);
         else if (_woodBoards.Count > 0)
             scavenger.MoveToWoodBoard(_woodBoards.Dequeue());
     }

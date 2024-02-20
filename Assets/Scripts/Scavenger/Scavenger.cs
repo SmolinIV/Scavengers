@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Bringer))]
+[RequireComponent (typeof(Builder))]
 
 public class Scavenger : MonoBehaviour
 {
@@ -10,12 +11,14 @@ public class Scavenger : MonoBehaviour
     public Action WoodBoardBrought;
 
     private Bringer _bringer;
+    private Builder _builder;
 
     public bool IsFree { get; private set; }
 
     private void Awake()
     {
         _bringer = GetComponent<Bringer>();
+        _builder = GetComponent<Builder>();
 
         IsFree = true;
     }
@@ -24,12 +27,14 @@ public class Scavenger : MonoBehaviour
     {
         _bringer.WoodBoardBrought += NotifyAboutBroughtWoodBoard;
         _bringer.TargetMissed += StopWorking;
+        _builder.NewBaseCreated += JoinToBase;
     }
 
     private void OnDisable()
     {
         _bringer.WoodBoardBrought -= NotifyAboutBroughtWoodBoard;
         _bringer.TargetMissed -= StopWorking;
+        _builder.NewBaseCreated -= JoinToBase;
     }
 
     public void MoveToWoodBoard(WoodBoard woodBoard)
@@ -39,6 +44,12 @@ public class Scavenger : MonoBehaviour
 
         IsFree = false;
         _bringer.MoveToWoodBoard(woodBoard);
+    }
+
+    public void MoveToBuildNewBase(Flag flag)
+    {
+        IsFree = false;
+        _builder.MoveToBuildNewBase(flag);
     }
 
     public void StopWorking()
@@ -53,6 +64,11 @@ public class Scavenger : MonoBehaviour
     public void SetBasePosition(Vector3 position)
     {
         _bringer.SetBasePosition(position);
+    }
+
+    private void JoinToBase(Base newBase)
+    {
+        newBase.AcceptActiveScavenger(this);
     }
 
     private void NotifyAboutBroughtWoodBoard()

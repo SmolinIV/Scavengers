@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class NewBaseCreator : MonoBehaviour
 { 
-    public Action<Flag> FlagSet;
+    public Action FlagSet;
 
     [SerializeField] private Flag _flagPrefab;
     [SerializeField] private PhantomBase _phantomBasePrefab;
@@ -21,7 +21,7 @@ public class NewBaseCreator : MonoBehaviour
             _flag.Set -= NotifyAboutFlagSet;
     }
 
-    public void CreateFlagToAddNewBase()
+    public void SetFlag()
     {
         if (!_isFlagCreated)
         {
@@ -35,9 +35,21 @@ public class NewBaseCreator : MonoBehaviour
         }
     }
 
+    public bool TryCreateNewBase(Scavenger scavenger)
+    {
+        if (_woodBoardCounter.WoodBoardCount >= _newBaseCost)
+        {
+            scavenger.MoveToBuildNewBase(_flag);
+            _isFlagCreated = false;
+            return true;
+        }
+
+        return false;
+    }
+
     private void NotifyAboutFlagSet()
     {
-        FlagSet?.Invoke(_flag);
+        FlagSet?.Invoke();
         Destroy(_phantomBase.gameObject);
     }
 }

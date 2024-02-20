@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,7 +10,7 @@ public class Flag : MonoBehaviour
     public Action Set;
 
     private Ray _mousRay;
-    private RaycastHit _hit;
+    private RaycastHit[] _hits;
 
     private Coroutine _untilClickMoving;
 
@@ -30,16 +31,16 @@ public class Flag : MonoBehaviour
 
     private void MoveToCursor()
     {
-        _mousRay = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+        _mousRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        _hits = Physics.RaycastAll(_mousRay);
 
-        if (Physics.Raycast(_mousRay, out _hit))
+        RaycastHit hit = _hits.Where(hit => hit.collider.TryGetComponent(out Terrain component)).FirstOrDefault();
+        if (hit.point != Vector3.zero)
         {
-            Vector3 newPosition = _hit.point;
+            Vector3 newPosition = hit.point;
             newPosition.y = _positionCorrectionY;
             transform.position = newPosition;
-
-        }
-
+        }  
     }
 
     private void SetOnGround()

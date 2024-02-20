@@ -8,21 +8,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5621770336388073682, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 544c20df184e9f5428b647649986807a, type: 2}
+    - target: {fileID: 5621770336388073682, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 544c20df184e9f5428b647649986807a, type: 2}
+    - target: {fileID: 5621770336388073682, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 544c20df184e9f5428b647649986807a, type: 2}
+    - target: {fileID: 5621770336388073682, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 544c20df184e9f5428b647649986807a, type: 2}
     - target: {fileID: 6126151297966205191, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
       propertyPath: m_Name
       value: CanopyFantom Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6795833471293109181, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 131.73724
+      value: 61.43028
       objectReference: {fileID: 0}
     - target: {fileID: 6795833471293109181, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05500938
+      value: -0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 6795833471293109181, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 37.924744
+      value: -11.286152
       objectReference: {fileID: 0}
     - target: {fileID: 6795833471293109181, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -72,40 +88,13 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6126151297966205191, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1084247598746507576}
-    - targetCorrespondingSourceObject: {fileID: 6126151297966205191, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2035779176027192774}
-    - targetCorrespondingSourceObject: {fileID: 6126151297966205191, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -7084382717212520627}
   m_SourcePrefab: {fileID: 100100000, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
 --- !u!1 &9036828093538951989 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6126151297966205191, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
   m_PrefabInstance: {fileID: 2913043221623474738}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1084247598746507576
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9036828093538951989}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 15, y: 5, z: 10}
-  m_Center: {x: 0, y: 3, z: 0}
 --- !u!114 &2035779176027192774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,31 +109,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _possiblePlaceColor: {r: 1, g: 1, b: 1, a: 0.46666667}
   _impossiblePlaceColor: {r: 1, g: 0.4669811, b: 0.4669811, a: 0.64705884}
-  _roofMaterial: {fileID: 2100000, guid: 01e8609e495fa4243be357098147015c, type: 2}
---- !u!54 &-7084382717212520627
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9036828093538951989}
-  serializedVersion: 4
-  m_Mass: 0.0000001
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  _roofMaterial: {fileID: 2100000, guid: 544c20df184e9f5428b647649986807a, type: 2}
