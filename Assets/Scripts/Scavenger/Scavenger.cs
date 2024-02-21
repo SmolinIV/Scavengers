@@ -13,18 +13,22 @@ public class Scavenger : MonoBehaviour
     private Bringer _bringer;
     private Builder _builder;
 
+    public Vector3 FreeIdlePosition {  get; private set; }
+    public Vector3 BasePosition { get; private set; }
     public bool IsFree { get; private set; }
 
     private void Awake()
     {
-        _bringer = GetComponent<Bringer>();
-        _builder = GetComponent<Builder>();
-
         IsFree = true;
+
+        FreeIdlePosition = transform.position;
     }
 
     private void OnEnable()
     {
+        _bringer = GetComponent<Bringer>();
+        _builder = GetComponent<Builder>();
+
         _bringer.WoodBoardBrought += NotifyAboutBroughtWoodBoard;
         _bringer.TargetMissed += StopWorking;
         _builder.NewBaseCreated += JoinToBase;
@@ -43,7 +47,7 @@ public class Scavenger : MonoBehaviour
             return;
 
         IsFree = false;
-        _bringer.MoveToWoodBoard(woodBoard);
+        _bringer.MoveToWoodBoard(woodBoard, BasePosition);
     }
 
     public void MoveToBuildNewBase(Flag flag)
@@ -58,17 +62,23 @@ public class Scavenger : MonoBehaviour
         AlreadyFree?.Invoke(this);
 
         if (IsFree)
-            _bringer.ReturnToStartPosition();
+            _bringer.ReturnToFreeIdlePosition(FreeIdlePosition);
     }
 
     public void SetBasePosition(Vector3 position)
     {
-        _bringer.SetBasePosition(position);
+        BasePosition = position;
+    }
+
+    public void SetFreeWaitingPosition(Vector3 position)
+    {
+        FreeIdlePosition = position;
     }
 
     private void JoinToBase(Base newBase)
     {
         newBase.AcceptActiveScavenger(this);
+        gameObject.SetActive(true);
     }
 
     private void NotifyAboutBroughtWoodBoard()

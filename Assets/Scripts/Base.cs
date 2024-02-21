@@ -16,29 +16,33 @@ public class Base : MonoBehaviour
     private WoodBoardCounter _woodBoardCounter;
     private Queue<WoodBoard> _woodBoards;
 
-
     private bool _isNeedToBuildNewBase;
 
     private void Awake()
     {
-        _woodBoardCounter = GetComponent<WoodBoardCounter>();
-        _scavengersStaff = GetComponent<ScavengersStaff>();
-        _newBaseCreator = GetComponent<NewBaseCreator>();
-
         _woodBoards = new Queue<WoodBoard>();
-
-        for (int i = 0; i < _startScavengerCount; i++)
-            _scavengersStaff.CreateNewScavenger(out Scavenger scavenger);
-
         _isNeedToBuildNewBase = false;
     }
 
     private void OnEnable()
     {
+        _woodBoardCounter = GetComponent<WoodBoardCounter>();
+        _scavengersStaff = GetComponent<ScavengersStaff>();
+        _newBaseCreator = GetComponent<NewBaseCreator>();
+
+        if (_woodBoardsSpawner == null)
+            _woodBoardsSpawner = FindAnyObjectByType<WoodBoardsSpawner>();
+
         _woodBoardsSpawner.WoodBoardSpawned += RegisterNewWoodBoard;
         _scavengersStaff.SomeScavengerGotFree += GiveTaskToFreeScavenger;
         _scavengersStaff.WoodBoardBrought += IncreaseWoodBoardCount;
         _newBaseCreator.FlagSet += ChangePriorityToCreateNewBase;
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < _startScavengerCount; i++)
+            _scavengersStaff.CreateNewScavenger(out Scavenger scavenger);
     }
 
     private void OnDisable()
@@ -87,9 +91,14 @@ public class Base : MonoBehaviour
             return;
 
         if (_isNeedToBuildNewBase && _newBaseCreator.TryCreateNewBase(scavenger))
+        {
+            _isNeedToBuildNewBase = false;
             _scavengersStaff.RemoveScavenger(scavenger);
+        }
         else if (_woodBoards.Count > 0)
+        {
             scavenger.MoveToWoodBoard(_woodBoards.Dequeue());
+        }
     }
 
     private void IncreaseWoodBoardCount()
@@ -100,5 +109,6 @@ public class Base : MonoBehaviour
     private void ChangePriorityToCreateNewBase()
     {
         _isNeedToBuildNewBase = true;
+        _woodBoardsSpawner.UpdateNavMesh();
     }
 }

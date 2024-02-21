@@ -17,21 +17,19 @@ public class Bringer : MonoBehaviour
     private Animator _animator;
     private WoodBoard _target;
 
-    private Vector3 _defaultPosition;
-    private Vector3 _basePosition;
-
     private bool _isWithWoodBoard;
     private bool _isFree;
 
     private Coroutine _returningControl;
     private Coroutine _targetControl;
 
+    private Vector3 _basePosition;
+
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
 
-        _defaultPosition = transform.position;
         _isWithWoodBoard = false;
         _isFree = true;
     }
@@ -52,7 +50,7 @@ public class Bringer : MonoBehaviour
             if (woodBoard.gameObject == _target.gameObject)
             {
                 _agent.velocity = Vector3.zero;
-                BringWoodBoardToBase();
+                BringWoodBoardToBase(_basePosition);
             }
         }
         else if (collision.TryGetComponent(out Base mainBase) && _isWithWoodBoard)
@@ -62,30 +60,26 @@ public class Bringer : MonoBehaviour
         }
     }
 
-    public void MoveToWoodBoard(WoodBoard woodBoard)
+    public void MoveToWoodBoard(WoodBoard woodBoard, Vector3 basePosition)
     {
         _isFree = false;
         _target = woodBoard;
+        _basePosition = basePosition;
 
         _targetControl = StartCoroutine(CheckTargetRelevance());
         _agent.SetDestination(_target.transform.position);
         _animator.SetBool(AnimFreeRunningPermit, true);
     }
 
-    public void ReturnToStartPosition()
+    public void ReturnToFreeIdlePosition(Vector3 position)
     {
         _isFree = true;
 
-        _agent.SetDestination(_defaultPosition);
-        _returningControl = StartCoroutine(ControlReturning());
+        _agent.SetDestination(position);
+        _returningControl = StartCoroutine(ControlReturning(position));
     }
 
-    public void SetBasePosition(Vector3 position)
-    {
-        _basePosition = position;
-    }
-
-    private void BringWoodBoardToBase()
+    private void BringWoodBoardToBase(Vector3 basePosition)
     {
         Vector3 woodBoardInHandsPosition = new Vector3(0, 1, 0.5f);
 
@@ -93,7 +87,7 @@ public class Bringer : MonoBehaviour
         _target.PutOnHands();
         _target.transform.localPosition = woodBoardInHandsPosition;
 
-        _agent.SetDestination(_basePosition);
+        _agent.SetDestination(basePosition);
         _animator.SetBool(AnimRunWithWoodBoardPermit, true);
 
         _isWithWoodBoard = true;
@@ -110,11 +104,11 @@ public class Bringer : MonoBehaviour
         WoodBoardBrought?.Invoke();
     }
 
-    private IEnumerator ControlReturning()
+    private IEnumerator ControlReturning(Vector3 freeIdlePosition)
     {
         float difference = 0.5f;
 
-        while (Vector3.Distance(transform.position, _defaultPosition) > difference && _isFree)
+        while (Vector3.Distance(transform.position, freeIdlePosition) > difference && _isFree)
             yield return null;
 
 

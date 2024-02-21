@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class LookAtCamera : MonoBehaviour
 {
-    [SerializeField] private Transform _camera;
-
     private void LateUpdate()
     {
-        transform.LookAt(_camera);
+        transform.LookAt(Camera.main.transform);
     }
 }

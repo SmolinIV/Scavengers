@@ -118,7 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5085aefe14c956b49878542d2177f61a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 0}
 --- !u!1 &1038102894720087314
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,9 +761,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3245752376485484017}
-        m_TargetAssemblyTypeName: Base, Assembly-CSharp
-        m_MethodName: CreateNewBase
+      - m_Target: {fileID: 2437328236959724537}
+        m_TargetAssemblyTypeName: NewBaseCreator, Assembly-CSharp
+        m_MethodName: SetFlag
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1049,8 +1048,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Size: {x: 8.331694, y: 4.546484, z: 4.0959387}
-  m_Center: {x: 0.050603867, y: 2.2892442, z: 0.04796934}
+  m_Size: {x: 8.331694, y: 5.2934284, z: 4.292773}
+  m_Center: {x: 0.050603867, y: 1.915772, z: 0.10548186}
   m_Area: 1
   m_AffectedAgents: ffffffff
 --- !u!114 &8597048051252399719
@@ -1094,6 +1093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _flagPrefab: {fileID: 4700436371545527963, guid: df8b2e05e6bc70e4eb740280ce078f7f, type: 3}
+  _phantomBasePrefab: {fileID: 2035779176027192774, guid: f246f806348df6e42be437e789d0e6ef, type: 3}
   _woodBoardCounter: {fileID: 8597048051252399719}
   _newBaseCost: 5
 --- !u!1 &6463644328821151666
@@ -1279,6 +1279,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7807051869478825365}
     m_Modifications:
+    - target: {fileID: 4767288985561091620, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839620930639023318, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -1357,6 +1361,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7807051869478825365}
     m_Modifications:
+    - target: {fileID: 4767288985561091620, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839620930639023318, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -1435,6 +1443,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7807051869478825365}
     m_Modifications:
+    - target: {fileID: 4767288985561091620, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839620930639023318, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -1513,6 +1525,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7807051869478825365}
     m_Modifications:
+    - target: {fileID: 4767288985561091620, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839620930639023318, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -1591,6 +1607,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7807051869478825365}
     m_Modifications:
+    - target: {fileID: 4767288985561091620, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839620930639023318, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -1669,6 +1689,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7807051869478825365}
     m_Modifications:
+    - target: {fileID: 4767288985561091620, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839620930639023318, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -1747,6 +1771,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7807051869478825365}
     m_Modifications:
+    - target: {fileID: 4767288985561091620, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839620930639023318, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -1825,6 +1853,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7807051869478825365}
     m_Modifications:
+    - target: {fileID: 4767288985561091620, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839620930639023318, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -1903,6 +1935,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7807051869478825365}
     m_Modifications:
+    - target: {fileID: 4767288985561091620, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839620930639023318, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -1981,6 +2017,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7807051869478825365}
     m_Modifications:
+    - target: {fileID: 4767288985561091620, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839620930639023318, guid: 7bcb58554a8c3844daff1cb4024489dc, type: 3}
       propertyPath: m_LocalScale.x
       value: 5

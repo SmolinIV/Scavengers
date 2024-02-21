@@ -36,7 +36,9 @@ public class Builder : MonoBehaviour
 
     public void MoveToBuildNewBase(Flag flag)
     {
-        _agent.SetDestination(_flag.transform.position);
+        _flag = flag;
+
+        _agent.SetDestination(flag.transform.position);
         _animator.SetBool(AnimFreeRunningPermit, true);
 
         _distanceControling = StartCoroutine(ControlDistanceToFlag());
@@ -44,16 +46,19 @@ public class Builder : MonoBehaviour
 
     private void BuildNewBase()
     {
-        _flag.gameObject.SetActive(false);
-        Base newBase = Instantiate(_basePrefab, _flag.transform.position, new Quaternion(0,0,0,0));
+        Vector3 buildingPosition = _flag.transform.position;
         Destroy(_flag.gameObject);
+
+        gameObject.SetActive(false);
+
+        Base newBase = Instantiate(_basePrefab, buildingPosition, new Quaternion(0,0,0,0));
 
         NewBaseCreated?.Invoke(newBase);
     }
 
     private IEnumerator ControlDistanceToFlag()
     {
-        float difference = 3f;
+        float difference = 5f;
 
         while (Vector3.Distance(transform.position, _flag.transform.position) > difference)
             yield return null;

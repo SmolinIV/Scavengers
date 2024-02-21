@@ -10,15 +10,15 @@ public class NewBaseCreator : MonoBehaviour
     [SerializeField] private WoodBoardCounter _woodBoardCounter;
     [SerializeField] private int _newBaseCost = 5;
 
-    private Flag _flag;
+    private Flag _newBaseFlag;
     private PhantomBase _phantomBase;
 
     private bool _isFlagCreated;
 
     public void OnDisable()
     {
-        if (_flag != null)
-            _flag.Set -= NotifyAboutFlagSet;
+        if (_newBaseFlag != null)
+            _newBaseFlag.Set -= NotifyAboutFlagSet;
     }
 
     public void SetFlag()
@@ -26,11 +26,11 @@ public class NewBaseCreator : MonoBehaviour
         if (!_isFlagCreated)
         {
             _isFlagCreated = true;
-            _flag = Instantiate(_flagPrefab);
-            _flag.Set += NotifyAboutFlagSet;
+            _newBaseFlag = Instantiate(_flagPrefab);
+            _newBaseFlag.Set += NotifyAboutFlagSet;
 
             _phantomBase = Instantiate(_phantomBasePrefab);
-            _phantomBase.transform.SetParent(_flag.transform);
+            _phantomBase.transform.SetParent(_newBaseFlag.transform);
             _phantomBase.transform.localPosition = Vector3.zero;
         }
     }
@@ -39,8 +39,8 @@ public class NewBaseCreator : MonoBehaviour
     {
         if (_woodBoardCounter.WoodBoardCount >= _newBaseCost)
         {
-            scavenger.MoveToBuildNewBase(_flag);
-            _isFlagCreated = false;
+            _woodBoardCounter.DecreaseCountByNumber(_newBaseCost);
+            scavenger.MoveToBuildNewBase(_newBaseFlag);
             return true;
         }
 
