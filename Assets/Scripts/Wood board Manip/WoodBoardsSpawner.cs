@@ -16,7 +16,7 @@ public class WoodBoardsSpawner : MonoBehaviour
     private WoodBoardsPool _woodBoardsPool;
     private float _passedTime;
 
-    private void Start()
+    private void Awake()
     {
         _navMeshSurface = GetComponent<NavMeshSurface>();
         _woodBoardsPool = GetComponent<WoodBoardsPool>();

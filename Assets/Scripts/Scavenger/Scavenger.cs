@@ -31,14 +31,12 @@ public class Scavenger : MonoBehaviour
 
         _bringer.WoodBoardBrought += NotifyAboutBroughtWoodBoard;
         _bringer.TargetMissed += StopWorking;
-        _builder.NewBaseCreated += JoinToBase;
     }
 
     private void OnDisable()
     {
         _bringer.WoodBoardBrought -= NotifyAboutBroughtWoodBoard;
         _bringer.TargetMissed -= StopWorking;
-        _builder.NewBaseCreated -= JoinToBase;
     }
 
     public void MoveToWoodBoard(WoodBoard woodBoard)
@@ -68,17 +66,6 @@ public class Scavenger : MonoBehaviour
     public void SetBasePosition(Vector3 position)
     {
         BasePosition = position;
-    }
-
-    public void SetFreeWaitingPosition(Vector3 position)
-    {
-        FreeIdlePosition = position;
-    }
-
-    private void JoinToBase(Base newBase)
-    {
-        newBase.AcceptActiveScavenger(this);
-        gameObject.SetActive(true);
     }
 
     private void NotifyAboutBroughtWoodBoard()

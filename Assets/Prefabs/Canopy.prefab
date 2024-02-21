@@ -1013,8 +1013,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _woodBoardsSpawner: {fileID: 0}
-  _startScavengerCount: 2
-  _scavengerCost: 3
+  _startScavengerCount: 1
+  _scavengerCost: 1
 --- !u!65 &1561188046863175263
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1034,7 +1034,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 11, y: 1, z: 6}
+  m_Size: {x: 11, y: 1, z: 6.5}
   m_Center: {x: 0.010229111, y: 0.54, z: -0.002256155}
 --- !u!114 &2627500017140673466
 MonoBehaviour:
@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scavengerPrefab: {fileID: 1350482728342913405, guid: db9a08f5fac698441978db1df3306e44, type: 3}
   _firstScavengerPosition: {fileID: 3394439766769245058}
-  _scavengerSpawnDistanceX: 5
+  _scavengerSpawnDistanceX: 7
   _maxScavengerCount: 5
 --- !u!114 &2437328236959724537
 MonoBehaviour:

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -47,21 +46,23 @@ public class Builder : MonoBehaviour
     private void BuildNewBase()
     {
         Vector3 buildingPosition = _flag.transform.position;
+
         Destroy(_flag.gameObject);
 
         gameObject.SetActive(false);
 
         Base newBase = Instantiate(_basePrefab, buildingPosition, new Quaternion(0,0,0,0));
 
-        NewBaseCreated?.Invoke(newBase);
+        Destroy(gameObject);
     }
 
     private IEnumerator ControlDistanceToFlag()
     {
-        float difference = 5f;
+        float difference = 10f;
 
         while (Vector3.Distance(transform.position, _flag.transform.position) > difference)
             yield return null;
+
 
         BuildNewBase();
         yield break;

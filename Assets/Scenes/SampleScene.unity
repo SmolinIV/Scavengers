@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.72778887, g: 0.7207825, b: 0.69705945, a: 1}
+  m_IndirectSpecularColor: {r: 0.7277426, g: 0.7208038, b: 0.6970539, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -818,6 +818,10 @@ PrefabInstance:
       propertyPath: _woodBoardsSpawner
       value: 
       objectReference: {fileID: 1156474109}
+    - target: {fileID: 3245752376485484017, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
+      propertyPath: _startScavengerCount
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4915345416183016838, guid: 4c4896384163f7c428f38c4741487cdb, type: 3}
       propertyPath: m_Camera
       value: 

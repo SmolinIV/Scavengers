@@ -55,8 +55,11 @@ public class Bringer : MonoBehaviour
         }
         else if (collision.TryGetComponent(out Base mainBase) && _isWithWoodBoard)
         {
-            _agent.velocity = Vector3.zero;
-            ThrowWoodBoard();
+            if (mainBase.transform.position == _basePosition)
+            {
+                _agent.velocity = Vector3.zero;
+                ThrowWoodBoard();
+            }
         }
     }
 

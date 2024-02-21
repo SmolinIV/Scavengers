@@ -38,8 +38,15 @@ public class ScavengersStaff : MonoBehaviour
         if (_scavengers.Count < _maxScavengerCount)
         {
             scavenger = Instantiate(_scavengerPrefab, GetScavengerStartPosition(), new Quaternion(0,0,0,0));
-            SetScavengerMainValues(scavenger);
+
+            scavenger.SetBasePosition(transform.position);
+            scavenger.transform.SetParent(this.transform);
+
             _scavengers.Add(scavenger);
+
+            scavenger.AlreadyFree += NotifyAboutFreeScavenger;
+            scavenger.WoodBoardBrought += NotifyAboutBroughtWoodBoard;
+
         }
     }
 
@@ -59,18 +66,6 @@ public class ScavengersStaff : MonoBehaviour
         return false;
     }
 
-    public void AddNewActiveScavenger(Scavenger scavenger)
-    {
-        _scavengers.Add(scavenger);
-        SetScavengerMainValues(scavenger);
-        transform.position = GetScavengerStartPosition();
-
-        scavenger.AlreadyFree += NotifyAboutFreeScavenger;
-        scavenger.WoodBoardBrought += NotifyAboutBroughtWoodBoard;
-
-        NotifyAboutFreeScavenger(scavenger);
-    }
-
     public void RemoveScavenger(Scavenger scavenger)
     {
         _scavengers.Remove(scavenger);
@@ -84,18 +79,6 @@ public class ScavengersStaff : MonoBehaviour
     private void NotifyAboutBroughtWoodBoard()
     {
         WoodBoardBrought?.Invoke();
-    }
-
-    private void SetScavengerMainValues(Scavenger scavenger)
-    {
-        Vector3 ScavengerStartPosition = GetScavengerStartPosition();
-
-        scavenger.transform.SetParent(this.transform);
-        scavenger.SetBasePosition(transform.position);
-        scavenger.SetFreeWaitingPosition(ScavengerStartPosition);
-
-        scavenger.AlreadyFree += NotifyAboutFreeScavenger;
-        scavenger.WoodBoardBrought += NotifyAboutBroughtWoodBoard;
     }
 
     private Vector3 GetScavengerStartPosition()

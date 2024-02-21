@@ -13,8 +13,6 @@ public class Flag : MonoBehaviour
     private RaycastHit[] _hits;
 
     private Coroutine _untilClickMoving;
-
-    private float _positionCorrectionY = 1.4f;
     private bool _isSetOnGround;
 
     public void OnEnable()
@@ -35,12 +33,9 @@ public class Flag : MonoBehaviour
         _hits = Physics.RaycastAll(_mousRay);
 
         RaycastHit hit = _hits.Where(hit => hit.collider.TryGetComponent(out Terrain component)).FirstOrDefault();
+
         if (hit.point != Vector3.zero)
-        {
-            Vector3 newPosition = hit.point;
-            newPosition.y = _positionCorrectionY;
-            transform.position = newPosition;
-        }  
+            transform.position = hit.point;
     }
 
     private void SetOnGround()

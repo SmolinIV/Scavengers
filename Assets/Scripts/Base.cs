@@ -7,7 +7,7 @@ using UnityEngine;
 public class Base : MonoBehaviour
 {
     [SerializeField] private WoodBoardsSpawner _woodBoardsSpawner;
-    [SerializeField] private int _startScavengerCount = 2;
+    [SerializeField] private int _startScavengerCount = 1;
     [SerializeField] private int _scavengerCost = 3;
 
     private ScavengersStaff _scavengersStaff;
@@ -41,8 +41,11 @@ public class Base : MonoBehaviour
 
     private void Start()
     {
+        _woodBoardsSpawner.UpdateNavMesh();
+
         for (int i = 0; i < _startScavengerCount; i++)
             _scavengersStaff.CreateNewScavenger(out Scavenger scavenger);
+
     }
 
     private void OnDisable()
@@ -65,11 +68,6 @@ public class Base : MonoBehaviour
                 _woodBoardCounter.DecreaseCountByNumber(_scavengerCost);
             }
         }
-    }
-
-    public void AcceptActiveScavenger(Scavenger scavenger)
-    {
-        _scavengersStaff.AddNewActiveScavenger(scavenger);
     }
 
     public void SetFlagForNewBase()
@@ -109,6 +107,5 @@ public class Base : MonoBehaviour
     private void ChangePriorityToCreateNewBase()
     {
         _isNeedToBuildNewBase = true;
-        _woodBoardsSpawner.UpdateNavMesh();
     }
 }
