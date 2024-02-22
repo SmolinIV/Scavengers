@@ -64,6 +64,5 @@ public class Builder : MonoBehaviour
 
 
         BuildNewBase();
-        yield break;
     }
 }

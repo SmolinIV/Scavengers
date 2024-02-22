@@ -120,8 +120,6 @@ public class Bringer : MonoBehaviour
             _animator.SetBool(AnimFreeRunningPermit, false);
             _animator.SetBool(AnimRunWithWoodBoardPermit, false);
         }
-
-        yield break;
     }
 
     private IEnumerator CheckTargetRelevance()
@@ -141,7 +139,5 @@ public class Bringer : MonoBehaviour
                 yield return delay;
             }
         }
-
-        yield break;
     }
 }
