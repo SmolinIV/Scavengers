@@ -126,7 +126,7 @@ public class Bringer : MonoBehaviour
 
     private IEnumerator CheckTargetRelevance()
     {
-        float delayInSeconds = 0.5f;
+        float delayInSeconds = 0.2f;
         WaitForSeconds delay = new WaitForSeconds(delayInSeconds);
 
         while (!_isWithWoodBoard)

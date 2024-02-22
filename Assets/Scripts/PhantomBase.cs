@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PhantomBase : MonoBehaviour
@@ -9,7 +6,9 @@ public class PhantomBase : MonoBehaviour
     [SerializeField] private Color _impossiblePlaceColor;
     [SerializeField] private Material _roofMaterial;
     [SerializeField] private float _freeBuildingRadius = 30f;
+
     public bool IsPossibleToPlace { get; private set; }
+
     private enum IgnoringColliders
     {
         Flag,

@@ -47,8 +47,7 @@ public class Builder : MonoBehaviour
     {
         Vector3 buildingPosition = _flag.transform.position;
 
-        Destroy(_flag.gameObject);
-
+        _flag.gameObject.SetActive(false);
         gameObject.SetActive(false);
 
         Base newBase = Instantiate(_basePrefab, buildingPosition, new Quaternion(0,0,0,0));

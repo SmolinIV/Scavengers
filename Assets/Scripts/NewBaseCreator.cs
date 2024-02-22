@@ -20,7 +20,15 @@ public class NewBaseCreator : MonoBehaviour
     private void Awake()
     {
         _phantomBase = Instantiate(_phantomBasePrefab);
+        _newBaseFlag = Instantiate(_flagPrefab);
+        _changingPositionFlag = Instantiate(_flagPrefab);
+
+        _newBaseFlag.SetPhantomBase(_phantomBase);
+        _changingPositionFlag.SetPhantomBase(_phantomBase);
+
         _phantomBase.gameObject.SetActive(false);
+        _newBaseFlag.gameObject.SetActive(false);
+        _changingPositionFlag.gameObject.SetActive(false);
     }
 
     public void OnDisable()
@@ -51,6 +59,10 @@ public class NewBaseCreator : MonoBehaviour
         {
             _woodBoardCounter.DecreaseCountByNumber(_newBaseCost);
             scavenger.MoveToBuildNewBase(_newBaseFlag);
+
+            _isFlagSet = false;
+            _isFlagCreated = false;
+
             return true;
         }
 
@@ -59,20 +71,20 @@ public class NewBaseCreator : MonoBehaviour
 
     private void CreateBuildingBaseCursor(Flag creatingFlag)
     {
-        creatingFlag = Instantiate(_flagPrefab);
         creatingFlag.Set += NotifyAboutFlagSet;
         _phantomBase.gameObject.SetActive(true);
         _phantomBase.transform.SetParent(creatingFlag.transform);
         _phantomBase.transform.localPosition = Vector3.zero;
+        creatingFlag.gameObject.SetActive(true);
     }
 
     private void NotifyAboutFlagSet()
     {
-        if (_changingPositionFlag != null)
+        if (_changingPositionFlag.isActiveAndEnabled)
         {
-           _newBaseFlag.gameObject.SetActive(false);
-            _newBaseFlag = _changingPositionFlag;
-            _changingPositionFlag = null;
+            Vector3 newPosition = _changingPositionFlag.transform.position;
+            _changingPositionFlag.gameObject.SetActive(false);
+           _newBaseFlag.transform.position = newPosition;
         }
 
         _phantomBase.gameObject.SetActive(false);

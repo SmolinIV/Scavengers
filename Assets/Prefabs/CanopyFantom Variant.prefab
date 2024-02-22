@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9822b84349cfc4144938603ffddb067c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _possiblePlaceColor: {r: 1, g: 1, b: 1, a: 0.46666667}
-  _impossiblePlaceColor: {r: 1, g: 0.4669811, b: 0.4669811, a: 0.64705884}
+  _possiblePlaceColor: {r: 1, g: 1, b: 1, a: 0.6509804}
+  _impossiblePlaceColor: {r: 1, g: 0.4669811, b: 0.4669811, a: 0.7529412}
   _roofMaterial: {fileID: 2100000, guid: 544c20df184e9f5428b647649986807a, type: 2}
+  _freeBuildingRadius: 30

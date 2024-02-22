@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Flag : MonoBehaviour
 {
@@ -11,6 +9,8 @@ public class Flag : MonoBehaviour
 
     private Ray _mousRay;
     private RaycastHit[] _hits;
+
+    private PhantomBase _phantomBase;
 
     private Coroutine _untilClickMoving;
     private bool _isSetOnGround;
@@ -25,6 +25,11 @@ public class Flag : MonoBehaviour
     {
         if (_untilClickMoving != null)
             StopCoroutine(_untilClickMoving);
+    }
+
+    public void SetPhantomBase(PhantomBase phantomBase)
+    {
+        _phantomBase = phantomBase;
     }
 
     private void MoveToCursor()
@@ -48,7 +53,7 @@ public class Flag : MonoBehaviour
     {
         while (!_isSetOnGround)
         {
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetKey(KeyCode.Mouse0) && _phantomBase.IsPossibleToPlace)
             {
                 SetOnGround();
                 yield break;

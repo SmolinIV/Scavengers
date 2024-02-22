@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveCamera : MonoBehaviour
 {
-    [SerializeField, Range (0,1)] private float _speed = 0.5f;
+    [SerializeField, Range (0,2)] private float _speed = 0.5f;
     [SerializeField, Range (0,1)] private float _rotationSensetive = 0.25f;
 
     private Vector3 lastMousePosition;
