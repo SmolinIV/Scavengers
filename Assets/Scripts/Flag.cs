@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Flag : MonoBehaviour
 {
-    public Action Set;
+    public event Action Set;
 
     private Ray _mousRay;
     private RaycastHit[] _hits;

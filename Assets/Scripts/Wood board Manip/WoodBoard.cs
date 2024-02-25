@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class WoodBoard : MonoBehaviour
 {
-    [SerializeField] private Vector3 _onHandsSize;
+    [SerializeField] private Vector3 _inHandsSize;
+
     private AnimRotator _animations;
 
     private Vector3 _defaultScale;
+
+    public Transform Parent {get; private set;}
 
     private void Start()
     {
@@ -18,7 +21,7 @@ public class WoodBoard : MonoBehaviour
 
     public void PutOnHands()
     {
-        transform.localScale = _onHandsSize;
+        transform.localScale = _inHandsSize;
         transform.rotation = new Quaternion(0,0,0,0);
         _animations.StopAnimation();
     }
@@ -29,5 +32,4 @@ public class WoodBoard : MonoBehaviour
         transform.localScale = _defaultScale;
     }
 
-    public bool HaveParent() => transform.parent != null;
 }

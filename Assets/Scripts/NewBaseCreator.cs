@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class NewBaseCreator : MonoBehaviour
 { 
-    public Action FlagSet;
-
     [SerializeField] private Flag _flagPrefab;
     [SerializeField] private PhantomBase _phantomBasePrefab;
     [SerializeField] private WoodBoardCounter _woodBoardCounter;
     [SerializeField] private int _newBaseCost = 5;
+
+    public event Action FlagSet;
 
     private Flag _newBaseFlag;
     private Flag _changingPositionFlag;
@@ -42,7 +42,7 @@ public class NewBaseCreator : MonoBehaviour
 
     public void SetFlag()
     {
-        if (!_isFlagCreated)
+        if (_isFlagCreated == false)
         {
             _isFlagCreated = true;
             CreateBuildingBaseCursor(_newBaseFlag);

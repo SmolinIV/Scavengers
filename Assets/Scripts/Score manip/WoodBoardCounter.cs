@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WoodBoardCounter : MonoBehaviour
 {
-    public Action<int> WoodBoardCountChanged;
+    public event Action<int> WoodBoardCountChanged;
 
     public int WoodBoardCount { get; private set; }
 

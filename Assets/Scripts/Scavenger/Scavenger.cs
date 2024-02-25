@@ -7,14 +7,14 @@ using UnityEngine.EventSystems;
 
 public class Scavenger : MonoBehaviour
 {
-    public Action<Scavenger> AlreadyFree;
-    public Action WoodBoardBrought;
+    public event Action<Scavenger> AlreadyFree;
+    public event Action WoodBoardBrought;
 
     private Bringer _bringer;
     private Builder _builder;
 
+    private Vector3 _basePosition;
     public Vector3 FreeIdlePosition {  get; private set; }
-    public Vector3 BasePosition { get; private set; }
     public bool IsFree { get; private set; }
 
     private void Awake()
@@ -31,12 +31,14 @@ public class Scavenger : MonoBehaviour
 
         _bringer.WoodBoardBrought += NotifyAboutBroughtWoodBoard;
         _bringer.TargetMissed += StopWorking;
+        _bringer.WoodBoardTaken += BringWoodBoardToBase;
     }
 
     private void OnDisable()
     {
         _bringer.WoodBoardBrought -= NotifyAboutBroughtWoodBoard;
         _bringer.TargetMissed -= StopWorking;
+        _bringer.WoodBoardTaken -= BringWoodBoardToBase;
     }
 
     public void MoveToWoodBoard(WoodBoard woodBoard)
@@ -45,7 +47,12 @@ public class Scavenger : MonoBehaviour
             return;
 
         IsFree = false;
-        _bringer.MoveToWoodBoard(woodBoard, BasePosition);
+        _bringer.MoveToWoodBoard(woodBoard);
+    }
+
+    public void BringWoodBoardToBase()
+    {
+        _bringer.BringWoodBoardToBase(_basePosition);
     }
 
     public void MoveToBuildNewBase(Flag flag)
@@ -65,7 +72,7 @@ public class Scavenger : MonoBehaviour
 
     public void SetBasePosition(Vector3 position)
     {
-        BasePosition = position;
+        _basePosition = position;
     }
 
     private void NotifyAboutBroughtWoodBoard()

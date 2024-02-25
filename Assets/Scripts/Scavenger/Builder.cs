@@ -10,8 +10,6 @@ public class Builder : MonoBehaviour
 {
     public readonly string AnimFreeRunningPermit = "RunFree";
 
-    public Action<Base> NewBaseCreated;
-
     [SerializeField] private Base _basePrefab;
 
     private NavMeshAgent _agent;
@@ -19,7 +17,7 @@ public class Builder : MonoBehaviour
 
     private Flag _flag;
 
-    private Coroutine _distanceControling;
+    private Coroutine _reachingFlag;
 
     private void Awake()
     {
@@ -29,8 +27,8 @@ public class Builder : MonoBehaviour
 
     private void OnDisable()
     {
-        if (_distanceControling != null)
-            StopCoroutine( _distanceControling );
+        if (_reachingFlag != null)
+            StopCoroutine( _reachingFlag );
     }
 
     public void MoveToBuildNewBase(Flag flag)
@@ -40,7 +38,7 @@ public class Builder : MonoBehaviour
         _agent.SetDestination(flag.transform.position);
         _animator.SetBool(AnimFreeRunningPermit, true);
 
-        _distanceControling = StartCoroutine(ControlDistanceToFlag());
+        _reachingFlag = StartCoroutine(ReachFlag());
     }
 
     private void BuildNewBase()
@@ -55,7 +53,7 @@ public class Builder : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private IEnumerator ControlDistanceToFlag()
+    private IEnumerator ReachFlag()
     {
         float difference = 10f;
 

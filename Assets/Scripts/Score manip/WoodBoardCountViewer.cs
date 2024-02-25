@@ -11,6 +11,11 @@ public class WoodBoardCountViewer : MonoBehaviour
         _woodBoardCounter.WoodBoardCountChanged += ChangeText;
     }
 
+    private void OnDisable()
+    {
+        _woodBoardCounter.WoodBoardCountChanged -= ChangeText;
+    }
+
     private void ChangeText(int currentWoodBoardCount)
     {
         _text.text = currentWoodBoardCount.ToString();

@@ -5,8 +5,8 @@ using System;
 
 public class ScavengersStaff : MonoBehaviour
 {
-    public Action<Scavenger> SomeScavengerGotFree;
-    public Action WoodBoardBrought;
+    public event Action<Scavenger> SomeScavengerGotFree;
+    public event Action WoodBoardBrought;
 
     [SerializeField] private Scavenger _scavengerPrefab;
     [SerializeField] private Transform _firstScavengerPosition;
