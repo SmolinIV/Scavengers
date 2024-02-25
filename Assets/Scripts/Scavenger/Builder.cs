@@ -12,6 +12,8 @@ public class Builder : MonoBehaviour
 
     [SerializeField] private Base _basePrefab;
 
+    public event Action BecomeFree;
+
     private NavMeshAgent _agent;
     private Animator _animator;
 
@@ -50,7 +52,11 @@ public class Builder : MonoBehaviour
 
         Base newBase = Instantiate(_basePrefab, buildingPosition, new Quaternion(0,0,0,0));
 
-        Destroy(gameObject);
+        if (this.TryGetComponent(out Scavenger scavenger))
+            newBase.AddAlreadyCreatedScavenger(scavenger);
+
+        gameObject.SetActive(true);
+        BecomeFree?.Invoke();
     }
 
     private IEnumerator ReachFlag()

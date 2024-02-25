@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _woodBoardsSpawner: {fileID: 0}
-  _startScavengerCount: 1
+  _startScavengerCount: 0
   _scavengerCost: 2
 --- !u!65 &1561188046863175263
 BoxCollider:

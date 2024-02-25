@@ -11,8 +11,6 @@ public class WoodBoard : MonoBehaviour
 
     private Vector3 _defaultScale;
 
-    public Transform Parent {get; private set;}
-
     private void Start()
     {
         _defaultScale = transform.localScale;
@@ -32,4 +30,5 @@ public class WoodBoard : MonoBehaviour
         transform.localScale = _defaultScale;
     }
 
+    public bool HaveParent() => transform.parent != null;
 }

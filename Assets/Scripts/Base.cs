@@ -70,6 +70,18 @@ public class Base : MonoBehaviour
         }
     }
 
+    public void AddAlreadyCreatedScavenger(Scavenger scavenger)
+    {
+        _scavengersStaff.AddAlreadyCreatedScavenger(scavenger);
+
+        GiveTaskToFreeScavenger(scavenger);
+    }
+
+    public void RemoveScavenger(Scavenger scavenger)
+    {
+        _scavengersStaff.RemoveScavenger(scavenger);
+    }
+
     public void SetFlagForNewBase()
     {
         _newBaseCreator.SetFlag();

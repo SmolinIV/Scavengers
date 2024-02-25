@@ -128,7 +128,7 @@ public class Bringer : MonoBehaviour
 
         while (_isWithWoodBoard == false)
         {
-            if (_target.Parent != null)
+            if (_target.HaveParent())
             {
                 TargetMissed?.Invoke();
                 yield break;
