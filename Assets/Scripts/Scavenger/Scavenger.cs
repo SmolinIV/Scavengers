@@ -7,13 +7,14 @@ using UnityEngine.EventSystems;
 
 public class Scavenger : MonoBehaviour
 {
-    public event Action<Scavenger> AlreadyFree;
-    public event Action WoodBoardBrought;
-
     private Bringer _bringer;
     private Builder _builder;
 
     private Vector3 _basePosition;
+
+    public event Action<Scavenger> AlreadyFree;
+    public event Action WoodBoardBrought;
+
     public Vector3 FreeIdlePosition {  get; private set; }
     public bool IsFree { get; private set; }
 
@@ -66,10 +67,9 @@ public class Scavenger : MonoBehaviour
     public void StopWorking()
     {
         IsFree = true;
-        AlreadyFree?.Invoke(this);
+        _bringer.ReturnToFreeIdlePosition(FreeIdlePosition);
 
-        if (IsFree)
-            _bringer.ReturnToFreeIdlePosition(FreeIdlePosition);
+        AlreadyFree?.Invoke(this);
     }
 
     public void DetermineBasePosition(Vector3 position)

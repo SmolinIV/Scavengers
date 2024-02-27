@@ -11,9 +11,6 @@ public class Bringer : MonoBehaviour
     public readonly string AnimFreeRunningPermit = "RunFree";
     public readonly string AnimRunWithWoodBoardPermit = "RunWithWoodBoard";
 
-    public event Action WoodBoardTaken;
-    public event Action WoodBoardBrought;
-    public event Action TargetMissed;
 
     private NavMeshAgent _agent;
     private Animator _animator;
@@ -24,6 +21,10 @@ public class Bringer : MonoBehaviour
 
     private Coroutine _reachingStartPosition;
     private Coroutine _targetControl;
+
+    public event Action WoodBoardTaken;
+    public event Action WoodBoardBrought;
+    public event Action TargetMissed;
 
     private void Awake()
     {
@@ -68,7 +69,7 @@ public class Bringer : MonoBehaviour
         _isFree = false;
         _target = woodBoard;
 
-        _targetControl = StartCoroutine(CheckTargetRelevance());
+        _targetControl = StartCoroutine(TrackTargetRelevance());
         _agent.SetDestination(_target.transform.position);
         _animator.SetBool(AnimFreeRunningPermit, true);
     }
@@ -121,14 +122,14 @@ public class Bringer : MonoBehaviour
         }
     }
 
-    private IEnumerator CheckTargetRelevance()
+    private IEnumerator TrackTargetRelevance()
     {
         float delayInSeconds = 0.2f;
         WaitForSeconds delay = new WaitForSeconds(delayInSeconds);
 
         while (_isWithWoodBoard == false)
         {
-            if (_target.HaveParent())
+            if (_target.transform.parent != null)
             {
                 TargetMissed?.Invoke();
                 yield break;

@@ -5,8 +5,6 @@ using System;
 
 public class ScavengersStaff : MonoBehaviour
 {
-    public event Action<Scavenger> SomeScavengerGotFree;
-    public event Action WoodBoardBrought;
 
     [SerializeField] private Scavenger _scavengerPrefab;
     [SerializeField] private Transform _firstScavengerPosition;
@@ -14,6 +12,9 @@ public class ScavengersStaff : MonoBehaviour
     [SerializeField] private int _maxScavengerCount = 5;
 
     private List<Scavenger> _scavengers;
+
+    public event Action<Scavenger> SomeScavengerGotFree;
+    public event Action WoodBoardBrought;
 
     private void Awake()
     {

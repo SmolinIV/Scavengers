@@ -12,14 +12,14 @@ public class Builder : MonoBehaviour
 
     [SerializeField] private Base _basePrefab;
 
-    public event Action BecomeFree;
-
     private NavMeshAgent _agent;
     private Animator _animator;
 
     private Flag _flag;
 
     private Coroutine _reachingFlag;
+
+    public event Action BecomeFree;
 
     private void Awake()
     {

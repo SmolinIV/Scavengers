@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Flag : MonoBehaviour
 {
-    public event Action Set;
-
     private Ray _mousRay;
     private RaycastHit[] _hits;
 
@@ -14,6 +12,8 @@ public class Flag : MonoBehaviour
 
     private Coroutine _untilClickMoving;
     private bool _isSetOnGround;
+
+    public event Action Set;
 
     public void OnEnable()
     {

@@ -8,7 +8,6 @@ public class NewBaseCreator : MonoBehaviour
     [SerializeField] private WoodBoardCounter _woodBoardCounter;
     [SerializeField] private int _newBaseCost = 5;
 
-    public event Action FlagSet;
 
     private Flag _newBaseFlag;
     private Flag _changingPositionFlag;
@@ -16,6 +15,8 @@ public class NewBaseCreator : MonoBehaviour
 
     private bool _isFlagCreated = false;
     private bool _isFlagSet = false;
+
+    public event Action FlagSet;
 
     private void Awake()
     {
